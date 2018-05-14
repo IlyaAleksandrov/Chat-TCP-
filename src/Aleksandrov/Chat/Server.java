@@ -1,4 +1,4 @@
-package Aleksandrov;
+package Aleksandrov.Chat;
 
 import java.io.IOException;
 import java.net.ServerSocket;

@@ -1,4 +1,4 @@
-package Aleksandrov;
+package Aleksandrov.Chat;
 
 public enum MessageType {
     NAME_REQUEST,

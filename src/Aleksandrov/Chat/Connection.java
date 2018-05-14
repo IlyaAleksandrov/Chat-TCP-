@@ -1,4 +1,4 @@
-package Aleksandrov;
+package Aleksandrov.Chat;
 
 import java.io.Closeable;
 import java.io.IOException;
