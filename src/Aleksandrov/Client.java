@@ -1,3 +1,5 @@
+package Aleksandrov;
+
 import java.io.IOException;
 import java.net.Socket;
 
@@ -90,7 +92,7 @@ public class Client {
                     notifyConnectionStatusChanged(true);
                     return;
                 } else
-                    throw new IOException("Unexpected MessageType");
+                    throw new IOException("Unexpected Aleksandrov.MessageType");
             }
         }
 
@@ -109,7 +111,7 @@ public class Client {
                     informAboutDeletingNewUser(text);
                 }
                 else
-                    throw new IOException("Unexpected MessageType");
+                    throw new IOException("Unexpected Aleksandrov.MessageType");
             }
         }
 
