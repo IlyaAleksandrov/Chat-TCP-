@@ -18,21 +18,21 @@ public class Server {
                 connection.send(message);
         }
         catch(IOException e){
-            System.out.println("Отправка не удалась");
+            System.out.println("Sending fails");
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        ConsoleHelper.writeMessage("Введите порт для подключения:");
+        ConsoleHelper.writeMessage("Insert port for connection:");
         try (ServerSocket serverSocket = new ServerSocket(ConsoleHelper.readInt())) {
-            ConsoleHelper.writeMessage("Ожидание подключения...");
+            ConsoleHelper.writeMessage("Connecting...");
             while (true) {
                 Handler handler = new Handler(serverSocket.accept());
                 handler.start();
             }
         } catch (Exception e) {
-            ConsoleHelper.writeMessage("Ошибка. Сокет закрыт.");
+            ConsoleHelper.writeMessage("Error. Socket closed.");
             e.printStackTrace();
         }
     }
@@ -48,7 +48,7 @@ public class Server {
         private String serverHandshake(Connection connection) throws IOException, ClassNotFoundException {
             String name;
             while (true){
-                connection.send(new Message(MessageType.NAME_REQUEST, "Введите имя"));
+                connection.send(new Message(MessageType.NAME_REQUEST, "Insert name:"));
                 Message messageReceive = connection.receive();
                 if(messageReceive.getType() != MessageType.USER_NAME || messageReceive.getData().isEmpty())
                     continue;
@@ -56,7 +56,7 @@ public class Server {
                 if(connectionMap.containsKey(name))
                     continue;
                 connectionMap.put(name, connection);
-                connection.send(new Message(MessageType.NAME_ACCEPTED, "имя принято"));
+                connection.send(new Message(MessageType.NAME_ACCEPTED, "Name accepted"));
                 break;
             }
             return name;
@@ -76,12 +76,12 @@ public class Server {
                     sendBroadcastMessage(newMessage);
                 }
                 else
-                    ConsoleHelper.writeMessage("Ошибка. Неправильный тип сообщения.");
+                    ConsoleHelper.writeMessage("Error. Wrong message type.");
             }
         }
 
         public void run() {
-            ConsoleHelper.writeMessage("Установлено новое соединение: " + socket.getRemoteSocketAddress());
+            ConsoleHelper.writeMessage("New connection established: " + socket.getRemoteSocketAddress());
             String name = null;
             try (Connection connection = new Connection(socket)){
                 name = serverHandshake(connection);
@@ -89,17 +89,17 @@ public class Server {
                 this.sendListOfUsers(connection, name);
                 this.serverMainLoop(connection, name);
             } catch (IOException e) {
-                ConsoleHelper.writeMessage("Произошла ошибка при обмене данными с удаленным адресом");
+                ConsoleHelper.writeMessage("Error");
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {
-                ConsoleHelper.writeMessage("Произошла ошибка при обмене данными с удаленным адресом");
+                ConsoleHelper.writeMessage("Error");
                 e.printStackTrace();
             }
             finally {
                 if (name != null)
                     connectionMap.remove(name);
                     sendBroadcastMessage(new Message(MessageType.USER_REMOVED, name));
-                    ConsoleHelper.writeMessage("Соединение с удаленным адресом закрыто");
+                    ConsoleHelper.writeMessage("Connection closed");
             }
         }
     }

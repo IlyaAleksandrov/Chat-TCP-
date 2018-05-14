@@ -16,7 +16,7 @@ public class ConsoleHelper {
             return br.readLine();
         }
         catch (IOException e){
-            System.out.println("Произошла ошибка при попытке ввода текста. Попробуйте еще раз.");
+            System.out.println("Error in entering the text. Try again.");
             return readString();
         }
     }
@@ -26,7 +26,7 @@ public class ConsoleHelper {
             return Integer.parseInt(readString());
         }
         catch(NumberFormatException e){
-            System.out.println("Произошла ошибка при попытке ввода числа. Попробуйте еще раз.");
+            System.out.println("Error in entering a digit. Try again.");
             return readInt();
         }
     }

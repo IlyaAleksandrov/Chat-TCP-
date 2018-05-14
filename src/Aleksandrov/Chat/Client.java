@@ -8,17 +8,17 @@ public class Client {
     private volatile boolean clientConnected;
 
     private String getServerAddress() {
-        ConsoleHelper.writeMessage("введите адреса сервера");
+        ConsoleHelper.writeMessage("insert server address:");
         return ConsoleHelper.readString();
     }
 
     private int getServerPort() {
-        ConsoleHelper.writeMessage("введите порта сервера");
+        ConsoleHelper.writeMessage("insert server port:");
         return ConsoleHelper.readInt();
     }
 
     private String getUserName() {
-        ConsoleHelper.writeMessage("введите имя пользователя");
+        ConsoleHelper.writeMessage("insert your name:");
         return ConsoleHelper.readString();
     }
 
@@ -28,7 +28,7 @@ public class Client {
             Message message = new Message(MessageType.TEXT, text);
             connection.send(message);
         } catch (IOException e) {
-            ConsoleHelper.writeMessage("ошибка отправки");
+            ConsoleHelper.writeMessage("sending error");
             clientConnected = false;
         }
     }
@@ -40,10 +40,10 @@ public class Client {
             try {
                 wait();
                 if(clientConnected) {
-                    ConsoleHelper.writeMessage("Соединение установлено. Для выхода наберите команду 'exit'.");
+                    ConsoleHelper.writeMessage("Connection established. Insert 'exit' to quit");
                 }
                 else
-                    ConsoleHelper.writeMessage("Произошла ошибка во время работы клиента.");
+                    ConsoleHelper.writeMessage("Error while client running...");
                 String message;
                 while (clientConnected) {
                     message = ConsoleHelper.readString();
@@ -53,7 +53,7 @@ public class Client {
                     sendTextMessage(message);
                 }
             } catch (InterruptedException e) {
-                ConsoleHelper.writeMessage("ошибка");
+                ConsoleHelper.writeMessage("error");
             }
         }
 
@@ -71,10 +71,10 @@ public class Client {
             ConsoleHelper.writeMessage(message);
         }
         protected void informAboutAddingNewUser(String userName){
-            ConsoleHelper.writeMessage("Участник с именем " + userName + " присоединился к чату");
+            ConsoleHelper.writeMessage("New user " + userName + " joined the chat");
         }
         private void informAboutDeletingNewUser(String userName) {
-            ConsoleHelper.writeMessage("Участник с именем " + userName + " покинул к чат");
+            ConsoleHelper.writeMessage("User " + userName + " leaved the chat");
         }
         private void notifyConnectionStatusChanged(boolean clientConnected) {
             Client.this.clientConnected = clientConnected;
