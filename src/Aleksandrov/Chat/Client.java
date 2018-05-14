@@ -4,26 +4,26 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class Client {
-    protected Connection connection;
+    private Connection connection;
     private volatile boolean clientConnected;
 
-    protected String getServerAddress() throws IOException, ClassNotFoundException {
+    private String getServerAddress() {
         ConsoleHelper.writeMessage("введите адреса сервера");
         return ConsoleHelper.readString();
     }
 
-    protected int getServerPort() {
+    private int getServerPort() {
         ConsoleHelper.writeMessage("введите порта сервера");
         return ConsoleHelper.readInt();
     }
 
-    protected String getUserName() {
+    private String getUserName() {
         ConsoleHelper.writeMessage("введите имя пользователя");
         return ConsoleHelper.readString();
     }
 
 
-    protected void sendTextMessage(String text) {
+    private void sendTextMessage(String text) {
         try{
             Message message = new Message(MessageType.TEXT, text);
             connection.send(message);
@@ -67,23 +67,23 @@ public class Client {
 
 
     public class SocketThread extends Thread {
-        protected void processIncomingMessage(String message){
+        private void processIncomingMessage(String message){
             ConsoleHelper.writeMessage(message);
         }
         protected void informAboutAddingNewUser(String userName){
             ConsoleHelper.writeMessage("Участник с именем " + userName + " присоединился к чату");
         }
-        protected void informAboutDeletingNewUser(String userName) {
+        private void informAboutDeletingNewUser(String userName) {
             ConsoleHelper.writeMessage("Участник с именем " + userName + " покинул к чат");
         }
-        protected void notifyConnectionStatusChanged(boolean clientConnected) {
+        private void notifyConnectionStatusChanged(boolean clientConnected) {
             Client.this.clientConnected = clientConnected;
             synchronized (Client.this){
                 Client.this.notify();
             }
         }
 
-        protected void clientHandshake() throws IOException, ClassNotFoundException {
+        private void clientHandshake() throws IOException, ClassNotFoundException {
             while (true) {
                 Message message = connection.receive();
                 if (MessageType.NAME_REQUEST.equals(message.getType())) {
@@ -97,7 +97,7 @@ public class Client {
         }
 
 
-        protected void clientMainLoop() throws IOException, ClassNotFoundException {
+        private void clientMainLoop() throws IOException, ClassNotFoundException {
             while (true) {
                 Message message = connection.receive();
                 String text = message.getData();
