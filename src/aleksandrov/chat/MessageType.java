@@ -1,4 +1,4 @@
-package Aleksandrov.Chat;
+package aleksandrov.chat;
 
 /**
  * This is enum, which is responsible for the type of messages sent between the client and the server.

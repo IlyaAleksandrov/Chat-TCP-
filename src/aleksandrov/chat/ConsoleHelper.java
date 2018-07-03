@@ -1,4 +1,4 @@
-package Aleksandrov.Chat;
+package aleksandrov.chat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
